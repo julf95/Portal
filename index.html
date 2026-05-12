@@ -1187,32 +1187,34 @@
       const url = GAS_URL + "?action=createBill&payload=" + encodeURIComponent(JSON.stringify(payload));
 
       fetch(url)
-        .then(res => res.json())
-        .then(function(result){
-
-        if(result.BillCode){
-
-          const paymentURL =
-            "https://toyyibpay.com/" + result.BillCode;
-
-          if(window.paymentPopup){
-            window.paymentPopup.location.href = paymentURL;
-          }else{
-            window.open(paymentURL, "_blank");
+        .then(res => res.text())
+        .then(text => {
+      
+          const result = JSON.parse(text);
+      
+          if(result.BillCode){
+      
+            const paymentURL =
+              "https://toyyibpay.com/" + result.BillCode;
+      
+            if(window.paymentPopup){
+              window.paymentPopup.location.href = paymentURL;
+            }else{
+              window.open(paymentURL, "_blank");
+            }
+      
+          } else {
+      
+            alert("Bill gagal dicipta");
+            console.log(result);
+      
           }
-
-        }else{
-
-          alert("Bill gagal dicipta");
-          console.log(result);
-
-        }
-
-      })
-      .catch(function(err){
-        console.error(err);
-        alert("Error create bill backend");
-      });
+      
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Error create bill backend");
+        });
     }
 
 
