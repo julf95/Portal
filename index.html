@@ -62,7 +62,7 @@
       background: #0f62fe;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 5px 24px;
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
@@ -77,7 +77,7 @@
       backdrop-filter: blur(8px);
       border-radius: 20px;
       padding: 30px;
-      max-width: 400px;
+      max-width: 350px;
       width: 100%;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
       display: none;
@@ -89,7 +89,7 @@
       padding-top: 60px;
     }
     .profile-card img {
-      width: 120px;
+      width: 70px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       flex-shrink: 0;
@@ -105,17 +105,17 @@
       font-weight: bold;
       margin-top: 10px;
       font-family: 'Orbitron', sans-serif;
-      font-size: 16px;
+      font-size: 13px;
     }
     .level-bar {
       margin-top: 6px;
       display: flex;
-      gap: 8px;
+      gap: 2px;
       font-weight: bold;
       font-family: 'Orbitron', sans-serif;
     }
     .level-number {
-      padding: 4px 10px;
+      padding: 4px 5px;
       border-radius: 6px;
       background: #ddd;
       transition: all 0.3s;
@@ -573,18 +573,18 @@
         }
 
         profileInfo.innerHTML = `
-          <h2 style="font-size:17px;">Maklumat Pemanah</h2>
-          <p style="font-size:17px;"><strong>Nama:</strong><br> ${nama}</p>
-          <p style="font-size:17px;"><strong>IC:</strong> <span id="maskedIC">*********</span> 
-            <button onclick="toggleIC('${ic}')" id="toggleICBtn" style="margin-left:10px; padding:4px 10px; font-size:10px;">Tunjuk IC</button>
+          <h2 style="font-size:14px;">Maklumat Pemanah</h2>
+          <p style="font-size:12px;"><strong>Nama:</strong><br> ${nama}</p>
+          <p style="font-size:12px;"><strong>IC:</strong> <span id="maskedIC">*********</span> 
+            <button onclick="toggleIC('${ic}')" id="toggleICBtn" style="margin-left:10px; padding:4px 10px; font-size:8px;">Tunjuk IC</button>
           </p>
-          <p style="font-size:17px;"><strong>Sekolah:</strong><br> ${sekolah}</p>
-          <p style="font-size:17px;"><strong>Rekod Menang:</strong><br> ${win} ${stars}</p>
-          <div class="level-label" style="font-size:17px;">Level:</div>
-          <div class="level-bar" style="font-size:13px;">${levelBar}</div>
+          <p style="font-size:12px;"><strong>Sekolah:</strong><br> ${sekolah}</p>
+          <p style="font-size:12px;"><strong>Rekod Menang:</strong><br> ${win} ${stars}</p>
+          <div class="level-label" style="font-size:12px;">Level:</div>
+          <div class="level-bar" style="font-size:10px;">${levelBar}</div>
 
           <button onclick="openPaymentPanel('${ic}')"
-                  style="margin-top:15px; padding:10px 20px; background:#28a745; color:#fff; border:none; border-radius:8px; cursor:pointer;">
+                  style="margin-top:15px; padding:8px 10px; font-size:13px; background:#28a745; color:#fff; border:none; border-radius:8px; cursor:pointer;">
             💳 Bayar Yuran
           </button>
         `;
@@ -609,7 +609,7 @@
               btn.textContent = r[0]; // name
               btn.style.margin = "3px";
               btn.style.padding = "6px 10px";
-              btn.style.fontSize = "15px";
+              btn.style.fontSize = "13px";
               btn.style.borderRadius = "20px";
               btn.style.cursor = "pointer";
               btn.style.transition = "all 0.3s ease";
