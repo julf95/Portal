@@ -127,8 +127,8 @@
     }
     .rival-section {
       margin-top: 30px;
-      width: 80%;
-      max-width: 350px;
+      width: 95%;
+      max-width: 390px;
       background: rgba(255,255,255,0.8);
       backdrop-filter: blur(8px);
       padding: 18px;
@@ -139,10 +139,10 @@
       margin-top: 0;
       color: #d63031;
       font-family: 'Orbitron', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
     }
     .rival-section p {
-      font-size: 13px;
+      font-size: 12px;
       color: #555;
       margin-bottom: 10px;
     }
@@ -153,9 +153,10 @@
       padding: 8px 12px;
       border-radius: 20px;
       margin: 5px;
-      font-size: 13px;
+      font-size: 11px;
       cursor: pointer;
       transition: background 0.3s;
+      text-transform: uppercase;  /* 🔥 ADD THIS */
     }
     .chip:hover {
       background: #c0392b;
@@ -401,7 +402,7 @@
   </div>
 
   <div class="rival-section" id="rivalSection" style="display:none;">
-    <h3 style="font-size:15px;">Pesaing Anda ⚔️</h3>
+    <h3 style="font-size:14px;">Pesaing Anda ⚔️</h3>
     <p>Pemanah-pemanah ini merupakan pemanah yang mempunyai prestasi yang sama dengan anda. Senarai ini akan berubah setiap bulan mengikut prestasi anda yang terkini.</p>
     <div id="rivalList"></div>
   </div>
@@ -597,14 +598,14 @@
               const btn = document.createElement("button");
               btn.textContent = r[0]; // name
               btn.style.margin = "3px";
-              btn.style.padding = "6px 10px";
-              btn.style.fontSize = "13px";
+              btn.style.padding = "6px 4px";
+              btn.style.fontSize = "9px";
               btn.style.borderRadius = "20px";
               btn.style.cursor = "pointer";
               btn.style.transition = "all 0.3s ease";
               btn.style.border = "none";
 
-              btn.style.maxWidth = "220px";
+              btn.style.maxWidth = "120px";
               btn.style.whiteSpace = "nowrap";
               btn.style.overflow = "hidden";
               btn.style.textOverflow = "ellipsis";
@@ -668,14 +669,14 @@
             return `
               <div class="battle-card battle-vertical">
                 <div class="player top">
-                  ${nama.toUpperCase()}
+                  ${nama}
                   <span class="score-box">${userScore}</span>
                 </div>
 
                 <div class="vs-text">VS</div>
 
                 <div class="player bottom">
-                  ${rival.toUpperCase()}
+                  ${rival}
                   <span class="score-box">${rivalScore}</span>
                 </div>
               </div>
