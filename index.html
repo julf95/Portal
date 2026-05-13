@@ -273,7 +273,7 @@
     .panel-content {
       background: #fff;
       padding: 20px;
-      width: 420px;
+      width: 380px;
       margin: 9% auto;
       border-radius: 12px;
       position: relative;
@@ -286,23 +286,10 @@
     .close-btn {
       position: absolute;
       top: 10px; right: 15px;
-      font-size: 50px;
+      font-size: 30px;
       cursor: pointer;
     }
-    .pay-now {
-      display: inline-block;           /* allows padding + width */
-      font-size: 20px;                 /* bigger text */
-      font-weight: bold;
-      padding: 15px 40px;              /* bigger button */
-      background: #0f62fe;
-      color: white;
-      text-align: center;
-      border-radius: 12px;
-      text-decoration: none;
-      box-shadow: 0 0 15px rgba(15, 98, 254, 0.5); /* glowing effect */
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
+    .pay-now { display: inline-block; /* allows padding + width */ font-size: 14px; /* bigger text */ font-weight: bold; padding: 15px 15px; /* bigger button */ background: #0f62fe; color: white; text-align: center; border-radius: 12px; text-decoration: none; box-shadow: 0 0 15px rgba(15, 98, 254, 0.5); /* glowing effect */ transition: all 0.3s ease; cursor: pointer; }
 
     .pay-now:hover {
       background: #0353e9;
@@ -331,13 +318,13 @@
     }
 
     .monthCheckbox {
-      transform: scale(2);   /* make checkbox bigger */
+      transform: scale(1.5);   /* make checkbox bigger */
       margin-right: 12px;
       cursor: pointer;
     }
 
     .yearlyFeeCheckbox {
-      transform: scale(2);   /* make yearly checkbox bigger */
+      transform: scale(1.5);   /* make yearly checkbox bigger */
       margin-right: 12px;
       cursor: pointer;
     }
@@ -355,10 +342,12 @@
       100% { transform: rotate(360deg); }
     }
 
-    .resit-btn {
+    #resitBtn {
       background:#28a745;
+      padding: 10px 50px;
+      font-size: 14px;
+      border-radius: 14px;
     }
-
     .resit-btn:hover {
       background:#218838;
     }
@@ -460,19 +449,19 @@
       <span id="closePanel" class="close-btn">&times;</span>
       <!-- New: Fee type buttons -->
       <div style="margin-bottom:20px; text-align:center;">
-        <button id="monthlyBtn" style="margin-right:10px; padding:10px 20px; font-size:20px; border-radius:8px; background:#0f62fe; color:white; cursor:pointer;">Yuran Bulanan</button>
-        <button id="yearlyBtn" style="padding:10px 20px; font-size:20px; border-radius:8px; background:#6c757d; color:white; cursor:pointer;">Yuran Tahunan</button>
+        <button id="monthlyBtn" style="margin-right:10px; padding:3px 10px; font-size:14px; border-radius:4px; background:#0f62fe; color:white; cursor:pointer;">Yuran Bulanan</button>
+        <button id="yearlyBtn" style="padding:3px 10px; font-size:14px; border-radius:4px; background:#6c757d; color:white; cursor:pointer;">Yuran Tahunan</button>
       </div>
-      <h3 style="font-size:20px;">Butiran Yuran</h3>
-      <p style="font-size:20px;"><strong>Nama:</strong> <span id="pName">...</span></p>
-      <p style="font-size:20px;"><strong>IC:</strong> <span id="pIC">...</span></p>
-      <p id="paidLabel" style="font-size:20px;display:none;">Bulan Sudah Bayar: <span id="pLast">...</span></p>
+      <h3 style="font-size:13px;">Butiran Yuran</h3>
+      <p style="font-size:13px;"><strong>Nama:</strong> <span id="pName">...</span></p>
+      <p style="font-size:13px;"><strong>IC:</strong> <span id="pIC">...</span></p>
+      <p id="paidLabel" style="font-size:13px;display:none;">Bulan Sudah Bayar: <span id="pLast">...</span></p>
 
-      <p id="unpaidLabel" style="font-size:20px;">Bulan Belum Bayar:</p>
-      <div id="unpaidMonths" style="font-size:20px;">(akan dipaparkan)</div>
+      <p id="unpaidLabel" style="font-size:13px;">Bulan Belum Bayar:</p>
+      <div id="unpaidMonths" style="font-size:15px;">(akan dipaparkan)</div>
 
-      <p style="font-size:20px;">Jumlah Adik-Beradik: <span id="pSiblings">...</span></p>
-      <p style="font-size:20px;">Jumlah ingin dibayar (sila tanda yuran di atas): RM <span id="totalAmount">0</span></p>
+      <p style="font-size:13px;">Jumlah Adik-Beradik: <span id="pSiblings">...</span></p>
+      <p style="font-size:13px;">Jumlah ingin dibayar (sila tanda yuran di atas): RM <span id="totalAmount">0</span></p>
 
       <div style="display:flex; gap:20px; justify-content:center; margin-top:20px;">
 
@@ -491,11 +480,11 @@
   <!-- Resit Panel -->
   <div id="resitPanel" class="payment-panel">
 
-    <div class="panel-content" style="width:500px;">
+    <div class="panel-content" style="width:300px;">
 
       <span onclick="closeResit()" class="close-btn">&times;</span>
 
-      <h2 style="font-size:20px;">Resit Pembayaran</h2>
+      <h2 style="font-size:14px;">Resit Pembayaran</h2>
 
       <div id="resitContainer" style="
           margin-top:20px;
@@ -503,7 +492,7 @@
           border-radius:10px;
           padding:30px;
           min-height:400px;
-          font-size:18px;
+          font-size:13px;
       ">
       
       <!-- receipt content will appear here -->
@@ -1301,7 +1290,7 @@
 
           html += `
             <div style="
-              font-size:22px;
+              font-size:14px;
               padding:12px;
               border-bottom:1px solid #ddd;
               display:flex;
@@ -1316,8 +1305,8 @@
               <button
                 onclick="downloadResit('${ic}','${r.month}')"
                 style="
-                  font-size:25px;
-                  padding:8px 18px;
+                  font-size:12px;
+                  padding:8px 10px;
                   background:#28a745;
                   color:white;
                   border:none;
