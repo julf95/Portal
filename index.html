@@ -14,8 +14,8 @@
 
       background: linear-gradient(
         to bottom,
-        #6a0f1c 0%,
-        #6a0f1c 20%,
+        #6a0f1c 10%,
+        #6a0f1c 40%,
         #e0eaff 20%,
         #ffffff 100%
       );
@@ -39,7 +39,7 @@
       padding: 30px;
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
+      max-width: 300px;
       width: 100%;
       text-align: center;
       transition: all 0.3s ease;
@@ -77,7 +77,7 @@
       backdrop-filter: blur(8px);
       border-radius: 20px;
       padding: 30px;
-      max-width: 800px;
+      max-width: 500px;
       width: 100%;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
       display: none;
@@ -89,7 +89,7 @@
       padding-top: 60px;
     }
     .profile-card img {
-      width: 250px;
+      width: 200px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       flex-shrink: 0;
@@ -127,7 +127,7 @@
     }
     .rival-section {
       margin-top: 30px;
-      width: 100%;
+      width: 80%;
       max-width: 800px;
       background: rgba(255,255,255,0.8);
       backdrop-filter: blur(8px);
@@ -139,10 +139,10 @@
       margin-top: 0;
       color: #d63031;
       font-family: 'Orbitron', sans-serif;
-      font-size: 25px;
+      font-size: 15px;
     }
     .rival-section p {
-      font-size: 25px;
+      font-size: 15px;
       color: #555;
       margin-bottom: 10px;
     }
@@ -153,7 +153,7 @@
       padding: 8px 12px;
       border-radius: 20px;
       margin: 5px;
-      font-size: 30px;
+      font-size: 15px;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -229,7 +229,7 @@
     }
     .battle-section strong {
       font-family: 'Orbitron', sans-serif;
-      font-size: 24px;
+      font-size: 44px;
       color: #00ffe0;
       text-shadow: 0 0 10px #00ffe0;
       display: block;
@@ -242,7 +242,7 @@
       padding: 15px 25px;
       margin: 10px 0;
       box-shadow: 0 0 15px rgba(0,255,255,0.3);
-      font-size: 35px;
+      font-size: 25px;
       font-weight: bold;
       color: #00ffe0;
       display: inline-block;
@@ -273,10 +273,12 @@
     .panel-content {
       background: #fff;
       padding: 20px;
-      width: 620px;
-      margin: 5% auto;
+      width: 420px;
+      margin: 9% auto;
       border-radius: 12px;
       position: relative;
+      top: 0%;
+      left: 0%;
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
       max-height: 85vh;             /* 🔥 important */
       overflow-y: auto;             /* 🔥 enables scroll */
@@ -289,7 +291,7 @@
     }
     .pay-now {
       display: inline-block;           /* allows padding + width */
-      font-size: 40px;                 /* bigger text */
+      font-size: 20px;                 /* bigger text */
       font-weight: bold;
       padding: 15px 40px;              /* bigger button */
       background: #0f62fe;
@@ -440,8 +442,8 @@
   <div id="paymentPanel" class="payment-panel">
     <div id="panelLoading" style="
       position:absolute;
-      top:0;
-      left:0;
+      top:50;
+      left:50;
       width:100%;
       height:100%;
       background:rgba(255,255,255,0.85);
@@ -458,19 +460,19 @@
       <span id="closePanel" class="close-btn">&times;</span>
       <!-- New: Fee type buttons -->
       <div style="margin-bottom:20px; text-align:center;">
-        <button id="monthlyBtn" style="margin-right:10px; padding:10px 20px; font-size:30px; border-radius:8px; background:#0f62fe; color:white; cursor:pointer;">Yuran Bulanan</button>
-        <button id="yearlyBtn" style="padding:10px 20px; font-size:30px; border-radius:8px; background:#6c757d; color:white; cursor:pointer;">Yuran Tahunan</button>
+        <button id="monthlyBtn" style="margin-right:10px; padding:10px 20px; font-size:20px; border-radius:8px; background:#0f62fe; color:white; cursor:pointer;">Yuran Bulanan</button>
+        <button id="yearlyBtn" style="padding:10px 20px; font-size:20px; border-radius:8px; background:#6c757d; color:white; cursor:pointer;">Yuran Tahunan</button>
       </div>
-      <h3 style="font-size:40px;">Butiran Yuran</h3>
-      <p style="font-size:40px;"><strong>Nama:</strong> <span id="pName">...</span></p>
-      <p style="font-size:40px;"><strong>IC:</strong> <span id="pIC">...</span></p>
-      <p id="paidLabel" style="font-size:40px;display:none;">Bulan Sudah Bayar: <span id="pLast">...</span></p>
+      <h3 style="font-size:20px;">Butiran Yuran</h3>
+      <p style="font-size:20px;"><strong>Nama:</strong> <span id="pName">...</span></p>
+      <p style="font-size:20px;"><strong>IC:</strong> <span id="pIC">...</span></p>
+      <p id="paidLabel" style="font-size:20px;display:none;">Bulan Sudah Bayar: <span id="pLast">...</span></p>
 
-      <p id="unpaidLabel" style="font-size:40px;">Bulan Belum Bayar:</p>
-      <div id="unpaidMonths" style="font-size:40px;">(akan dipaparkan)</div>
+      <p id="unpaidLabel" style="font-size:20px;">Bulan Belum Bayar:</p>
+      <div id="unpaidMonths" style="font-size:20px;">(akan dipaparkan)</div>
 
-      <p style="font-size:40px;">Jumlah Adik-Beradik: <span id="pSiblings">...</span></p>
-      <p style="font-size:40px;">Jumlah ingin dibayar (sila tanda yuran di atas): RM <span id="totalAmount">0</span></p>
+      <p style="font-size:20px;">Jumlah Adik-Beradik: <span id="pSiblings">...</span></p>
+      <p style="font-size:20px;">Jumlah ingin dibayar (sila tanda yuran di atas): RM <span id="totalAmount">0</span></p>
 
       <div style="display:flex; gap:20px; justify-content:center; margin-top:20px;">
 
@@ -489,11 +491,11 @@
   <!-- Resit Panel -->
   <div id="resitPanel" class="payment-panel">
 
-    <div class="panel-content" style="width:900px;">
+    <div class="panel-content" style="width:500px;">
 
       <span onclick="closeResit()" class="close-btn">&times;</span>
 
-      <h2 style="font-size:40px;">Resit Pembayaran</h2>
+      <h2 style="font-size:20px;">Resit Pembayaran</h2>
 
       <div id="resitContainer" style="
           margin-top:20px;
@@ -501,7 +503,7 @@
           border-radius:10px;
           padding:30px;
           min-height:400px;
-          font-size:28px;
+          font-size:18px;
       ">
       
       <!-- receipt content will appear here -->
@@ -571,15 +573,15 @@
         }
 
         profileInfo.innerHTML = `
-          <h2 style="font-size:35px;">Maklumat Pemanah</h2>
-          <p style="font-size:35px;"><strong>Nama:</strong><br> ${nama}</p>
-          <p style="font-size:35px;"><strong>IC:</strong> <span id="maskedIC">*********</span> 
-            <button onclick="toggleIC('${ic}')" id="toggleICBtn" style="margin-left:10px; padding:4px 10px; font-size:20px;">Tunjuk IC</button>
+          <h2 style="font-size:28px;">Maklumat Pemanah</h2>
+          <p style="font-size:20px;"><strong>Nama:</strong><br> ${nama}</p>
+          <p style="font-size:20px;"><strong>IC:</strong> <span id="maskedIC">*********</span> 
+            <button onclick="toggleIC('${ic}')" id="toggleICBtn" style="margin-left:10px; padding:4px 10px; font-size:13px;">Tunjuk IC</button>
           </p>
-          <p style="font-size:35px;"><strong>Sekolah:</strong><br> ${sekolah}</p>
-          <p style="font-size:35px;"><strong>Rekod Menang:</strong><br> ${win} ${stars}</p>
-          <div class="level-label" style="font-size:35px;">Level:</div>
-          <div class="level-bar" style="font-size:23px;">${levelBar}</div>
+          <p style="font-size:20px;"><strong>Sekolah:</strong><br> ${sekolah}</p>
+          <p style="font-size:20px;"><strong>Rekod Menang:</strong><br> ${win} ${stars}</p>
+          <div class="level-label" style="font-size:23px;">Level:</div>
+          <div class="level-bar" style="font-size:13px;">${levelBar}</div>
 
           <button onclick="openPaymentPanel('${ic}')"
                   style="margin-top:15px; padding:10px 20px; background:#28a745; color:#fff; border:none; border-radius:8px; cursor:pointer;">
@@ -696,9 +698,9 @@
 
           battleSection.style.display = "block";
           battleContent.innerHTML = `
-            <strong style="font-size:35px;">1vs1 Battle Match Anda Bulan Ini</strong>
+            <strong style="font-size:25px;">1vs1 Battle Match Anda Bulan Ini</strong>
             ${battleLines}
-            <p style="font-size:30px;">Keep Fighting, Archers!</p>
+            <p style="font-size:20px;">Keep Fighting, Archers!</p>
           `;
         } else {
           battleSection.style.display = "none";
@@ -1299,7 +1301,7 @@
 
           html += `
             <div style="
-              font-size:32px;
+              font-size:22px;
               padding:12px;
               border-bottom:1px solid #ddd;
               display:flex;
@@ -1314,7 +1316,7 @@
               <button
                 onclick="downloadResit('${ic}','${r.month}')"
                 style="
-                  font-size:20px;
+                  font-size:25px;
                   padding:8px 18px;
                   background:#28a745;
                   color:white;
