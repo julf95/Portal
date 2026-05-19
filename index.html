@@ -353,6 +353,49 @@
       background:#218838;
     }
 
+    /* LEVEL + WIN BOXES */
+    .stats-container{
+      width:100%;
+      display:flex;
+      gap:20px;
+      margin-top:20px;
+    }
+    
+    .stat-box{
+      flex:1;
+      background:#000;
+      color:#fff;
+      border-radius:18px;
+      padding:20px;
+      text-align:center;
+    
+      box-shadow:0 0 15px rgba(0,0,0,0.25);
+    
+      font-family:'Orbitron', sans-serif;
+
+      /* ✨ GRADIENT BACKGROUND */
+      background: linear-gradient(135deg, #000000, #001a33, #00ffe0);
+    
+      box-shadow: 0 0 20px rgba(15, 98, 254, 0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .stat-title{
+      font-size:28px;
+      opacity:0.8;
+      margin-bottom:10px;
+    }
+    
+    .stat-value{
+      font-size:55px;
+      font-weight:bold;
+      color:#00ffe0;
+    
+      text-shadow:
+        0 0 8px #00ffe0,
+        0 0 15px #00ffe0;
+    }
+
 
 
 
@@ -395,6 +438,21 @@
     </div>
     <div class="profile-info" id="profileInfo"></div>
     <img id="archeryImage" src="https://raw.githubusercontent.com/julf95/classroom/main/Target%20Face%20Fita%20Portal.png" alt="Target Archery" style="display:none;">
+  </div>
+
+  <!-- LEVEL + WIN RECORD BOX -->
+  <div class="stats-container" id="statsContainer" style="display:none; max-width:800px;">
+  
+    <div class="stat-box">
+      <div class="stat-title">LEVEL</div>
+      <div class="stat-value" id="levelValue">0</div>
+    </div>
+  
+    <div class="stat-box">
+      <div class="stat-title">WIN RECORD</div>
+      <div class="stat-value" id="winValue">0</div>
+    </div>
+  
   </div>
 
   <div class="battle-section" id="battleSection">
@@ -547,11 +605,21 @@
       const rivalList = document.getElementById("rivalList");
       const battleSection = document.getElementById("battleSection");
       const battleContent = document.getElementById("battleContent");
+      const statsContainer = document.getElementById("statsContainer");
 
       const found = athletes.find(r => r[2] == ic);
 
       if (found) {
         let [nama, jantina, ic, level, sekolah, win, rivalName] = found;
+
+        // UPDATE LEVEL + WIN BOXES
+        document.getElementById("levelValue").textContent = level;
+        const winValueEl = document.getElementById("winValue");
+
+        // show empty if 0, null, undefined
+        winValueEl.textContent = (win && parseInt(win) > 0) ? win : "-";
+        
+        statsContainer.style.display = "flex";
 
         let stars = "🎯".repeat(parseInt(win) || 0);
 
@@ -764,6 +832,7 @@
         battleSection.style.display = "none";
         rivalSection.style.display = "none";
         bottomPanels.style.display = "none";
+        statsContainer.style.display = "none";
       }
     }
 
