@@ -567,7 +567,7 @@
 
     let athletes = [];
 
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbzrdhfTa57K82QHxDNLs_dLdifOJF-hxPSb9i7zzewt5kZF2QSwLzGTYPJkxCXLdzhm/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwf3d17sohkNTXshbj_uxV7aCFddO7lsKweFaFIx91ylBgD0Fjl4vPcy6CoI3652sxPGQ/exec";
 
     fetch(GAS_URL + "?action=getAllAthletes")
     .then(res => res.json())
@@ -1186,7 +1186,7 @@
         billPayorInfo: 1,
         billAmount: total * 100, // dalam sen
         billReturnUrl:
-          "https://script.google.com/macros/s/AKfycbzrdhfTa57K82QHxDNLs_dLdifOJF-hxPSb9i7zzewt5kZF2QSwLzGTYPJkxCXLdzhm/exec"
+          "https://script.google.com/macros/s/AKfycbwf3d17sohkNTXshbj_uxV7aCFddO7lsKweFaFIx91ylBgD0Fjl4vPcy6CoI3652sxPGQ/exec"
           + "?ic=" + encodeURIComponent(ic)
           + "&amount=" + encodeURIComponent(total)
           + "&feeType=" + (isYearly ? "yearly" : "monthly")
@@ -1194,7 +1194,7 @@
           + "&year=" + encodeURIComponent(selectedYear),
 
         billCallbackUrl:
-          "https://script.google.com/macros/s/AKfycbzrdhfTa57K82QHxDNLs_dLdifOJF-hxPSb9i7zzewt5kZF2QSwLzGTYPJkxCXLdzhm/exec"
+          "https://script.google.com/macros/s/AKfycbwf3d17sohkNTXshbj_uxV7aCFddO7lsKweFaFIx91ylBgD0Fjl4vPcy6CoI3652sxPGQ/exec"
           + "?ic=" + encodeURIComponent(ic)
           + "&amount=" + encodeURIComponent(total)
           + "&feeType=" + (isYearly ? "yearly" : "monthly")
@@ -1397,7 +1397,7 @@
 
     function downloadResit(ic, month){
 
-      const base = "https://script.google.com/macros/s/AKfycbzrdhfTa57K82QHxDNLs_dLdifOJF-hxPSb9i7zzewt5kZF2QSwLzGTYPJkxCXLdzhm/exec";
+      const base = "https://script.google.com/macros/s/AKfycbwf3d17sohkNTXshbj_uxV7aCFddO7lsKweFaFIx91ylBgD0Fjl4vPcy6CoI3652sxPGQ/exec";
 
       const url =
         base +
