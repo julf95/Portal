@@ -1179,7 +1179,7 @@
         
         billName: isYearly
           ? `Yuran Memanah Tahun ${new Date().getFullYear()}`
-          : "Yuran Memanah " + (latestMonth || ""),
+          : "Yuran " + latestMonth.replace(/\s*\(.*?\)/, ""),
         billDescription: description, // ✅ now includes yearly fees
         billPriceSetting: 1,
         billChargeToCustomer: 0,
