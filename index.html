@@ -373,9 +373,9 @@
     
         margin-top:30px;
     
-        width:105%;
+        width:100%;
     
-        max-width:1000px;
+        max-width:900px;
     
         flex-wrap:nowrap;
     
@@ -613,6 +613,9 @@
     }
     
     .player{
+        
+        position:relative;
+        overflow:visible;
 
         display:flex;
         justify-content:space-between;
@@ -889,6 +892,45 @@
     
         transform:rotate(-30deg);
     
+    }
+    
+    
+    .winner-tag{
+
+        position:absolute;
+    
+        top:-10px;
+        left:-22px;
+    
+        padding:5px 14px;
+    
+        background:linear-gradient(135deg,#FFD54F,#FF9800);
+    
+        color:#5d0000;
+    
+        font-size:9px;
+    
+        font-weight:900;
+    
+        letter-spacing:1px;
+    
+        text-transform:uppercase;
+    
+        transform:rotate(-30deg);
+    
+        border-radius:50px;      /* <-- fully rounded */
+    
+        border:2px solid rgba(255,255,255,.5);
+    
+        box-shadow:
+            0 8px 18px rgba(0,0,0,.35),
+            inset 0 2px 0 rgba(255,255,255,.5);
+    
+        z-index:10;
+    
+        pointer-events:none;
+    
+        font-family:'Orbitron',sans-serif;
     }
 
 
@@ -1235,19 +1277,39 @@
 
             const userScore = userScoreRaw ? userScoreRaw : "00";
             const rivalScore = rivalScoreRaw ? rivalScoreRaw : "00";
+            
+            const userNum = parseInt(userScoreRaw) || 0;
+            const rivalNum = parseInt(rivalScoreRaw) || 0;
+            
+            let userWinner = "";
+            let rivalWinner = "";
+            
+            // Only compare if BOTH have scores
+            if (userNum > 0 && rivalNum > 0) {
+            
+              if (userNum > rivalNum) {
+                userWinner = `<div class="winner-tag">WINNER</div>`;
+              }
+              else if (rivalNum > userNum) {
+                rivalWinner = `<div class="winner-tag">WINNER</div>`;
+              }
+            
+            }
 
             return `
               <div class="battle-card battle-vertical">
                 <div class="player top">
-                  ${nama.toUpperCase()}
-                  <span class="score-box">${userScore}</span>
+                    ${userWinner}
+                    <span>${nama.toUpperCase()}</span>
+                    <span class="score-box">${userScore}</span>
                 </div>
 
                 <div class="vs-text">VS</div>
 
                 <div class="player bottom">
-                  ${rival.toUpperCase()}
-                  <span class="score-box">${rivalScore}</span>
+                    ${rivalWinner}
+                    <span>${rival.toUpperCase()}</span>
+                    <span class="score-box">${rivalScore}</span>
                 </div>
               </div>
             `;
