@@ -932,6 +932,172 @@
     
         font-family:'Orbitron',sans-serif;
     }
+    
+    
+    
+    .medal-progress-card{
+
+        background:
+        linear-gradient(
+          145deg,
+          #720d2d,
+          #9b2146
+        );
+    
+        border-radius:20px;
+    
+        padding:15px;
+    
+        margin-bottom:12px;
+    
+        color:white;
+    
+        box-shadow:
+        0 10px 25px rgba(0,0,0,.35);
+    
+        overflow-x:auto;   /* enable horizontal scroll */
+        overflow-y:hidden;
+    
+    }
+    
+    
+    .medal-row{
+
+        display:flex;
+    
+        width:max-content;
+    
+        gap:12px;
+    
+    }
+    
+    
+    .medal-item{
+    
+        width:75px;
+    
+        flex-shrink:0;
+    
+        text-align:center;
+    
+        background:rgba(255,255,255,.08);
+    
+        border-radius:15px;
+    
+        padding:8px 5px;
+    
+    }
+    
+    
+    .medal-rank{
+    
+        width:55px;
+        height:55px;
+    
+        margin:auto;
+    
+        border-radius:50%;
+    
+        display:flex;
+    
+        flex-direction:column;
+    
+        justify-content:center;
+    
+        align-items:center;
+    
+    
+        background:
+        radial-gradient(
+          circle,
+          #FFD54F,
+          #FF9800
+        );
+    
+    
+        color:#5d0000;
+    
+        font-family:'Orbitron';
+    
+        font-size:10px;
+    
+        font-weight:bold;
+    
+    }
+    
+    
+    .medal-progress-win{
+    
+        margin-top:8px;
+    
+        font-size:18px;
+    
+        letter-spacing:0px;
+    
+        white-space:nowrap;
+    
+    }
+    
+    
+    .medal-rank{
+
+        flex-shrink:0;
+    
+        width:55px;
+        height:55px;
+    
+        border-radius:50%;
+    
+        display:flex;
+    
+        flex-direction:column;
+    
+        justify-content:center;
+    
+        align-items:center;
+    
+    
+        background:
+        radial-gradient(
+          circle,
+          #FFD54F,
+          #FF9800
+        );
+    
+    
+        color:#5d0000;
+    
+        font-family:'Orbitron';
+    
+        font-size:10px;
+    
+        font-weight:bold;
+    
+    }
+    
+    
+    .medal-empty{
+
+        background:
+        radial-gradient(
+          circle,
+          #777,
+          #333
+        );
+    
+        color:#bbb;
+    
+        filter:grayscale(100%);
+    
+        opacity:0.55;
+    
+    }
+    
+    
+    
+    
+    
+    
 
 
 
@@ -978,7 +1144,7 @@
   </div>
 
   <!-- LEVEL + WIN RECORD BOX -->
-  <div class="stats-container" id="statsContainer" style="display:none; max-width:400px;">
+  <div class="stats-container" id="statsContainer" style="display:none; max-width:500px;">
   
     <div class="stat-box">
       <div class="stat-title">LEVEL</div>
@@ -989,12 +1155,40 @@
       <div class="stat-title">WIN RECORD</div>
       <div class="stat-value" id="winValue">0</div>
     </div>
+    
+    <div class="stat-box">
+      <div class="stat-title">1v1 MEDAL</div>
+      <div class="stat-value" id="medalValue">0</div>
+    </div>
   
   </div>
 
   <div class="battle-section" id="battleSection">
     <div id="battleContent"></div>
   </div>
+  
+    <!-- MEDAL PROGRESS -->
+      <div id="medalProgressSection" style="
+          display:none;
+          width:95%;
+          max-width:400px;
+          margin-top:25px;
+          text-align:center;
+      ">
+        
+        <div style="
+            color:#FFD54F;
+            font-family:'Orbitron';
+            font-size:14px;
+            letter-spacing:2px;
+            margin-bottom:15px;
+        ">
+          🏅 1v1 MEDAL PROGRESS
+        </div>
+    
+        <div id="medalProgress"></div>
+    
+      </div>
 
   <div class="rival-section" id="rivalSection" style="display:none;">
     <h3 style="font-size:14px;">Pesaing Anda ⚔️</h3>
@@ -1131,6 +1325,125 @@
       }
       icShown = !icShown;
     }
+    
+    function ordinal(n){
+
+      if(n % 100 >= 11 && n % 100 <= 13){
+        return n + "th";
+      }
+    
+      switch(n % 10){
+        case 1:
+          return n + "st";
+        case 2:
+          return n + "nd";
+        case 3:
+          return n + "rd";
+        default:
+          return n + "th";
+      }
+    
+    }
+    
+    function generateMedalProgress(win, medalCount){
+
+      win = parseInt(win) || 0;
+    
+      let html = "";
+    
+      const medals = [
+        "🥇",
+        "🥈",
+        "🥉",
+        "🏅",
+        "🏅",
+        "🏅",
+        "🏅",
+        "🏅",
+        "🏅",
+        "🏅"
+      ];
+    
+    
+      html += `
+      <div class="medal-progress-card">
+    
+        <div class="medal-row">
+      `;
+    
+    
+      medals.forEach((medal,index)=>{
+
+
+            let startWin = (index*3)+1;
+        
+            let slots="";
+        
+        
+            for(let i=startWin;i<=startWin+2;i++){
+        
+              slots += win >= i ? "🟡" : "⚪";
+        
+            }
+        
+        
+            // Medal claimed status
+            let medalClass = index < medalCount 
+                ? "" 
+                : "medal-empty";
+        
+        
+            html += `
+        
+            <div class="medal-item">
+        
+        
+              <div class="medal-rank ${medalClass}">
+        
+                ${medal}
+        
+                <span>
+                ${ordinal(index+1)}
+                </span>
+        
+              </div>
+        
+        
+              <div class="medal-progress-win">
+                ${slots}
+              </div>
+        
+        
+            </div>
+        
+            `;
+        
+        
+        });
+    
+    
+    
+      html += `
+    
+        </div>
+    
+    
+        <div style="
+          margin-top:15px;
+          font-size:12px;
+          color:white;
+        ">
+          ${win} Wins → Next Medal Every 3 Wins
+        </div>
+    
+    
+      </div>
+      `;
+    
+    
+      return html;
+    
+    }
 
     function searchAthlete() {
       const ic = document.getElementById("searchIC").value.trim();
@@ -1147,7 +1460,21 @@
       const found = athletes.find(r => r[2] == ic);
 
       if (found) {
-        let [nama, jantina, ic, level, sekolah, win, rivalName] = found;
+        let [
+          nama,
+          jantina,
+          ic,
+          level,
+          sekolah,
+          win,
+          rivalName,
+          lastMonth,
+          sibling,
+          score,
+          colK,
+          colL,
+          medal
+        ] = found;
 
         // UPDATE LEVEL + WIN BOXES
         document.getElementById("levelValue").textContent = level;
@@ -1155,6 +1482,8 @@
 
         // show empty if 0, null, undefined
         winValueEl.textContent = (win && parseInt(win) > 0) ? win : "-";
+        
+        document.getElementById("medalValue").textContent = (medal && parseInt(medal)>0) ? medal : "-";
         
         statsContainer.style.display = "flex";
 
@@ -1182,6 +1511,7 @@
           </p>
           <p style="font-size:12px;"><strong>Sekolah:</strong><br> ${sekolah}</p>
           <p style="font-size:12px;"><strong>Rekod Menang:</strong><br> ${win} ${stars}</p>
+          
           <div class="level-label" style="font-size:12px;">Level:</div>
           <div class="level-bar" style="font-size:10px;">${levelBar}</div>
 
@@ -1190,6 +1520,11 @@
             💳 Bayar Yuran
           </button>
         `;
+        
+        document.getElementById("medalProgress").innerHTML =
+generateMedalProgress(win, medal);
+
+document.getElementById("medalProgressSection").style.display="block";
 
         archeryImage.style.display = "block";
         profileCard.style.display = "flex";
