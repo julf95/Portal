@@ -1139,6 +1139,227 @@
     
     }
     
+    /* ================================
+   MAJLIS PEMANAH
+    ================================ */
+    
+    .majlis-section {
+      margin-top: 25px;
+      width: 100%;
+      max-width: 360px;
+    
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.97),
+          rgba(245,245,245,.92)
+        );
+    
+      border-radius: 24px;
+    
+      padding: 22px;
+    
+      box-sizing: border-box;
+    
+      box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+    
+      border: 2px solid rgba(255,213,79,.7);
+    
+      animation: fadeIn .5s ease-in-out;
+    }
+    
+    .majlis-title {
+      font-family: 'Orbitron', sans-serif;
+    
+      font-size: 17px;
+    
+      font-weight: bold;
+    
+      color: #720d2d;
+    
+      letter-spacing: 1px;
+    
+      text-align: center;
+    
+      margin-bottom: 5px;
+    }
+    
+    .majlis-subtitle {
+      text-align: center;
+    
+      font-size: 11px;
+    
+      color: #777;
+    
+      margin-bottom: 15px;
+    }
+    
+    .majlis-search {
+      width: 100% !important;
+    
+      box-sizing: border-box;
+    
+      padding: 12px 14px;
+    
+      font-size: 14px;
+    
+      border-radius: 12px;
+    
+      border: 1px solid #ccc;
+    
+      outline: none;
+    
+      margin-bottom: 15px;
+    }
+    
+    .majlis-search:focus {
+      border-color: #720d2d;
+    
+      box-shadow:
+        0 0 8px rgba(114,13,45,.20);
+    }
+    
+    .majlis-list {
+      display: flex;
+    
+      flex-direction: column;
+    
+      gap: 8px;
+    
+      max-height: 400px;
+    
+      overflow-y: auto;
+    }
+    
+    .majlis-item {
+      display: flex;
+    
+      align-items: center;
+    
+      justify-content: space-between;
+    
+      gap: 8px;
+    
+      padding: 12px 14px;
+    
+      background: #fff;
+    
+      border-radius: 14px;
+    
+      border-left: 5px solid #720d2d;
+    
+      box-shadow:
+        0 4px 10px rgba(0,0,0,.08);
+    
+      transition: all .2s ease;
+    }
+    
+    .majlis-item:hover {
+      transform: translateX(4px);
+    
+      background: #fff9e6;
+    
+      border-left-color: #FFD54F;
+    }
+    
+    .majlis-name {
+      flex: 1;
+    
+      min-width: 0;
+    
+      font-size: 12px;
+    
+      font-weight: bold;
+    
+      color: #720d2d;
+    
+      text-transform: uppercase;
+    
+      word-break: break-word;
+    }
+    
+    .majlis-status {
+      display: flex;
+    
+      gap: 6px;
+    
+      flex-shrink: 0;
+    }
+    
+    .majlis-tick {
+      width: 28px;
+    
+      height: 28px;
+    
+      display: flex;
+    
+      align-items: center;
+    
+      justify-content: center;
+    
+      border-radius: 50%;
+    
+      background: #28a745;
+    
+      color: white;
+    
+      font-size: 16px;
+    
+      font-weight: bold;
+    
+      box-shadow:
+        0 3px 8px rgba(40,167,69,.35);
+    }
+    
+    .majlis-empty {
+      text-align: center;
+    
+      padding: 20px;
+    
+      font-size: 12px;
+    
+      color: #888;
+    }
+    
+    .majlis-loading {
+      text-align: center;
+    
+      padding: 20px;
+    
+      font-size: 12px;
+    
+      color: #777;
+    }
+    
+    .majlis-number {
+      flex-shrink: 0;
+      width: 34px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      color: #720d2d;
+      text-align: left;
+    }
+    
+    .majlis-name {
+      flex: 1;
+      min-width: 0;
+      font-size: 12px;
+      font-weight: bold;
+      color: #720d2d;
+      text-transform: uppercase;
+      word-break: break-word;
+    }
+    
+    /* Column I - Naik Tahap = Gold */
+    .majlis-tick.naik-tahap {
+      background: #FFD54F;
+      color: #720d2d;
+      box-shadow:
+        0 3px 8px rgba(255,213,79,.45);
+    }
+    
     
     
     
@@ -1170,6 +1391,33 @@
     <br>
     <button onclick="searchAthlete()">Cari</button>
   </div>
+  
+  <!-- MAJLIS PEMANAH -->
+    <div class="majlis-section" id="majlisSection">
+    
+      <div class="majlis-title">
+        🏹 MAJLIS PEMANAH
+      </div>
+    
+      <div class="majlis-subtitle">
+        Senarai pemanah yang terpilih
+      </div>
+    
+      <input
+        type="text"
+        id="searchMajlis"
+        class="majlis-search"
+        placeholder="🔍 Cari nama pemanah..."
+        autocomplete="off"
+      >
+    
+      <div id="majlisList" class="majlis-list">
+        <div class="majlis-loading">
+          Memuatkan senarai...
+        </div>
+      </div>
+    
+    </div>
 
   <div class="profile-card" id="profileCard">
     <!-- Sibling Tabs -->
@@ -1345,6 +1593,7 @@
   <script>
 
     let athletes = [];
+    let majlisPemanah = [];
 
     const GAS_URL = "https://script.google.com/macros/s/AKfycbwf3d17sohkNTXshbj_uxV7aCFddO7lsKweFaFIx91ylBgD0Fjl4vPcy6CoI3652sxPGQ/exec";
 
@@ -1353,6 +1602,30 @@
     .then(data => {
       athletes = data;
     });
+    
+    // ================================
+    // LOAD MAJLIS PEMANAH
+    // ================================
+    
+    fetch(GAS_URL + "?action=getMajlisPemanah")
+      .then(res => res.json())
+      .then(data => {
+    
+        majlisPemanah = data || [];
+    
+        renderMajlisPemanah(majlisPemanah);
+    
+      })
+      .catch(err => {
+    
+        console.error("Gagal memuatkan x-Majlis:", err);
+    
+        document.getElementById("majlisList").innerHTML =
+          `<div class="majlis-empty">
+            Gagal memuatkan senarai.
+          </div>`;
+    
+      });
 
     let paymentTabMode = "monthly"; // default
 
@@ -1370,6 +1643,114 @@
         toggleBtn.textContent = "Tunjuk IC";
       }
       icShown = !icShown;
+    }
+    
+    function renderMajlisPemanah(list) {
+
+      const container = document.getElementById("majlisList");
+    
+      if (!list || list.length === 0) {
+    
+        container.innerHTML = `
+          <div class="majlis-empty">
+            Tiada pemanah dipilih.
+          </div>
+        `;
+    
+        return;
+      }
+    
+      container.innerHTML = list.map(person => {
+    
+        // ==========================
+        // COLUMN G - PINGAT
+        // ==========================
+    
+        const pingatIsNumber =
+          person.pingat !== "" &&
+          person.pingat !== null &&
+          person.pingat !== undefined &&
+          typeof person.pingat === "number";
+    
+        // ==========================
+        // COLUMN I - NAIK TAHAP
+        // ==========================
+    
+        const naikTahapIsNumber =
+          person.naikTahap !== "" &&
+          person.naikTahap !== null &&
+          person.naikTahap !== undefined &&
+          typeof person.naikTahap === "number";
+    
+        // ==========================
+        // ORIGINAL POSITION IN x-MAJLIS
+        // ==========================
+    
+        const originalIndex = majlisPemanah.indexOf(person) + 1;
+    
+    
+        return `
+          <div class="majlis-item">
+    
+            <div class="majlis-number">
+              ${originalIndex}.
+            </div>
+    
+            <div class="majlis-name">
+              ${escapeMajlisHTML(person.nama)}
+            </div>
+    
+            <div class="majlis-status">
+    
+              ${
+                pingatIsNumber
+                ? `<div class="majlis-tick" title="Pingat">
+                     ✓
+                   </div>`
+                : ""
+              }
+    
+              ${
+                  naikTahapIsNumber
+                  ? `<div class="majlis-tick naik-tahap" title="Naik Tahap">
+                       ✓
+                     </div>`
+                  : ""
+                }
+    
+            </div>
+    
+          </div>
+        `;
+    
+      }).join("");
+    }
+    
+    document.getElementById("searchMajlis").addEventListener("input", function() {
+
+      const search = this.value
+        .trim()
+        .toLowerCase();
+    
+      const filtered = majlisPemanah.filter(person =>
+        person.nama
+          .toLowerCase()
+          .includes(search)
+      );
+    
+      renderMajlisPemanah(filtered);
+    
+    });
+    
+    function escapeMajlisHTML(text) {
+
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    
     }
     
     function ordinal(n){
@@ -1506,6 +1887,9 @@
       const found = athletes.find(r => r[2] == ic);
 
       if (found) {
+          
+        // Hide MAJLIS PEMANAH after successful IC access
+      document.getElementById("majlisSection").style.display = "none";
         let [
           nama,
           jantina,
@@ -1776,6 +2160,10 @@ document.getElementById("medalProgressSection").style.display="block";
         bottomPanels.style.display = "flex";
 
       } else {
+        
+        // Show MAJLIS PEMANAH again if IC is not found
+      document.getElementById("majlisSection").style.display = "block"; 
+        
         profileInfo.innerHTML = `<p style="color: red;">IC tidak dijumpai.</p>`;
         archeryImage.style.display = "none";
         profileCard.style.display = "flex";
