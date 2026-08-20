@@ -1361,6 +1361,20 @@
     }
     
     
+    .majlis-tick-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    
+    .majlis-tick-label {
+      font-size: 7px;
+      font-weight: bold;
+      color: #555;
+      white-space: nowrap;
+    }
+    
     
     
     
@@ -1702,18 +1716,24 @@
     
             <div class="majlis-status">
     
-              ${
-                pingatIsNumber
-                ? `<div class="majlis-tick" title="Pingat">
-                     ✓
-                   </div>`
-                : ""
-              }
-    
-              ${
+              ${ 
+                  pingatIsNumber
+                  ? `<div class="majlis-tick-wrapper">
+                       <div class="majlis-tick" title="Naik Tahap">
+                         ✓
+                       </div>
+                       <div class="majlis-tick-label">Naik Tahap</div>
+                     </div>`
+                  : ""
+                }
+                
+                ${ 
                   naikTahapIsNumber
-                  ? `<div class="majlis-tick naik-tahap" title="Naik Tahap">
-                       ✓
+                  ? `<div class="majlis-tick-wrapper">
+                       <div class="majlis-tick naik-tahap" title="Pingat Battle">
+                         ✓
+                       </div>
+                       <div class="majlis-tick-label">Pingat Battle</div>
                      </div>`
                   : ""
                 }
