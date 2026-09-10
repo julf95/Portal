@@ -1144,6 +1144,8 @@
     ================================ */
     
     .majlis-section {
+      display: none;
+      
       margin-top: 25px;
       width: 100%;
       max-width: 360px;
@@ -2182,7 +2184,7 @@ document.getElementById("medalProgressSection").style.display="block";
       } else {
         
         // Show MAJLIS PEMANAH again if IC is not found
-      document.getElementById("majlisSection").style.display = "block"; 
+      document.getElementById("majlisSection").style.display = "none"; 
         
         profileInfo.innerHTML = `<p style="color: red;">IC tidak dijumpai.</p>`;
         archeryImage.style.display = "none";
