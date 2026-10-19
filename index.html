@@ -2269,11 +2269,15 @@ document.getElementById("medalProgressSection").style.display="block";
         .then(data => {
         if (!data) return;
 
-        // Fill basic details
-        nameEl.textContent = data.name;
-        icEl.textContent = data.ic;
-        lastEl.textContent = data.lastMonth;
-        siblingsEl.textContent = data.siblings;
+        
+       // Fill basic details
+       const athlete = athletes.find(r => String(r[2]).trim() === String(ic).trim());
+      
+       nameEl.textContent = data.name || (athlete ? athlete[0] : "Nama tidak dijumpai");
+       icEl.textContent = data.ic || ic;
+       lastEl.textContent = data.lastMonth;
+       siblingsEl.textContent = data.siblings;
+
 
         // Generate unpaid months list
         const monthNames = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogos','Sept','Okt','Nov','Dis'];
