@@ -2435,50 +2435,144 @@ document.getElementById("medalProgressSection").style.display="block";
           totalAmountEl.textContent = total;
 
 
-          // 💳 Update ToyyibPay link dynamically
-          linkEl.onclick = (e) => {
-            e.preventDefault();
-
-            // ⛔ Final validation before payment
-            const allCB = document.querySelectorAll(".monthCheckbox");
-            let foundUnchecked = false;
-            let validPayment = true;
-
-            allCB.forEach(cb => {
-              if (!cb.checked && !foundUnchecked) {
-                foundUnchecked = true;
-              } else if (cb.checked && foundUnchecked) {
-                validPayment = false;
+          // 💳 Bayar menggunakan QR Al Fateh
+            linkEl.onclick = (e) => {
+              e.preventDefault();
+            
+              const total = parseFloat(totalAmountEl.textContent) || 0;
+            
+              if (total <= 0) {
+                alert("Sila pilih yuran yang ingin dibayar dahulu.");
+                return;
               }
-            });
-
-            if (!validPayment) {
-              alert("Sila tanda bulan paling awal dahulu sebelum bayar.");
-              return;
-            }
-
-            const checked = document.querySelectorAll(".monthCheckbox:checked");
-            const selectedMonths = Array.from(checked).map(cb => cb.parentNode.textContent.trim());
-            const total = parseInt(totalAmountEl.textContent);
-
-            if (total > 0) {
-              createToyyibPayBill(icEl.textContent, nameEl.textContent, total, selectedMonths, linkEl);
-              // --- STEP 5: Record Yearly Fee ---
-              document.querySelectorAll(".yearlyFeeCheckbox:checked").forEach(cb => {
-                  const yearLabel = cb.parentNode.textContent.match(/\d{4}/)[0]; // extract year
-                  recordPayment(
-                      payments,                  // your Payments sheet variable
-                      icEl.textContent,          // IC
-                      nameEl.textContent,        // Name
-                      "'" + yearLabel,           // treat year as month string
-                      parseInt(cb.value) * data.siblings // RM15 * siblings
-                  );
-              });
-
-            } else {
-              alert("Sila pilih yuran dahulu.");
-            }
-          };
+            
+              // Paparkan memo pembayaran QR
+              const oldModal = document.getElementById("qrPaymentModal");
+              if (oldModal) oldModal.remove();
+            
+              const modal = document.createElement("div");
+              modal.id = "qrPaymentModal";
+            
+              modal.style.cssText = `
+                position:fixed;
+                inset:0;
+                z-index:99999;
+                background:rgba(0,0,0,0.75);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:16px;
+              `;
+            
+              modal.innerHTML = `
+                <div style="
+                  background:white;
+                  width:100%;
+                  max-width:380px;
+                  max-height:90vh;
+                  overflow-y:auto;
+                  border-radius:18px;
+                  padding:22px;
+                  text-align:center;
+                  font-family:Arial,sans-serif;
+                  box-sizing:border-box;
+                ">
+                  <div style="font-size:36px;">📢</div>
+            
+                  <h2 style="
+                    color:#720d2d;
+                    font-size:21px;
+                    margin:10px 0;
+                  ">Makluman Pembayaran Yuran</h2>
+            
+                  <p style="font-size:14px;line-height:1.7;color:#333;">
+                    Pembayaran melalui ToyyibPay sedang mengalami gangguan teknikal.
+                    <br><br>
+                    Sila gunakan <strong>QR rasmi Al Fateh</strong> di bawah untuk
+                    membuat pembayaran yuran.
+                  </p>
+            
+                  <div style="
+                    background:#fff4e5;
+                    border-radius:10px;
+                    padding:12px;
+                    margin:14px 0;
+                    color:#720d2d;
+                  ">
+                    <div style="font-size:13px;">Jumlah yuran pilihan anda</div>
+                    <div style="font-size:28px;font-weight:bold;margin-top:5px;">
+                      RM${total.toFixed(2)}
+                    </div>
+                  </div>
+            
+                  <img
+                    src="https://raw.githubusercontent.com/julf95/classroom/main/QR%20al%20fateh.jpg"
+                    alt="QR Pembayaran Al Fateh"
+                    style="
+                      display:block;
+                      width:100%;
+                      max-width:280px;
+                      height:auto;
+                      margin:0 auto 14px;
+                      border:1px solid #ddd;
+                      border-radius:10px;
+                    "
+                  >
+            
+                  <p style="font-size:12px;line-height:1.6;color:#555;">
+                      Selepas membuat pembayaran, sila simpan bukti transaksi
+                      untuk rujukan pihak Akademi Memanah Tradisional Al Fateh.
+                    </p>
+                    
+                    <a
+                      href="https://wa.me/60104463136"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style="
+                        display:block;
+                        width:100%;
+                        box-sizing:border-box;
+                        margin-top:14px;
+                        padding:12px;
+                        background:#25D366;
+                        color:white;
+                        border-radius:10px;
+                        text-decoration:none;
+                        font-size:14px;
+                        font-weight:bold;
+                      "
+                    >
+                      💬 WhatsApp: 010-446 3136
+                      <div style="font-size:11px;font-weight:normal;margin-top:4px;">
+                        Hantar bukti pembayaran
+                      </div>
+                    </a>
+                    
+                    <button id="closeQRPayment" style="
+                    width:100%;
+                    margin-top:12px;
+                    padding:13px;
+                    background:#720d2d;
+                    color:white;
+                    border:none;
+                    border-radius:10px;
+                    font-size:15px;
+                    font-weight:bold;
+                    cursor:pointer;
+                  ">Tutup</button>
+                </div>
+              `;
+            
+              document.body.appendChild(modal);
+            
+              document.getElementById("closeQRPayment").onclick = () => {
+                modal.remove();
+              };
+            
+              modal.onclick = (event) => {
+                if (event.target === modal) modal.remove();
+              };
+            };
         }
 
 
