@@ -1401,12 +1401,73 @@
      class="portal-logo">
 
   <h1>Portal Pemanah Al Fateh</h1>
+ 
+
 
   <div class="search-box">
-    <input type="text" id="searchIC" placeholder="Masukkan IC anda">
-    <br>
-    <button onclick="searchAthlete()">Cari</button>
+      <input type="text" id="searchIC" placeholder="Masukkan IC anda">
+    
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+        <button onclick="searchAthlete()">Cari</button>
+    
+        <button onclick="location.reload()" type="button">
+          Reset
+        </button>
+      </div>
+    </div>
+  
+  <!-- POSTER PORTAL PEMANAH -->
+    <div id="portalPoster" style="
+      width:100%;
+      max-width:500px;
+      margin:0 auto 25px;
+      text-align:center;
+    ">
+      <img
+        src="https://raw.githubusercontent.com/julf95/classroom/main/Poster%2026%20fateh.png"
+        alt="Poster Portal Pemanah Al Fateh"
+        style="
+          display:block;
+          width:100%;
+          height:auto;
+          border:none;
+          border-radius:0;
+          box-shadow:none;
+        "
+      >
+    </div>
+    
+    <!-- INDOOR 2026 RANKING -->
+<div id="rankingSection" style="
+  max-width:900px;
+  margin:25px auto;
+  padding:20px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:15px;
+  color:white;
+">
+
+  <h2 style="text-align:center;margin-bottom:8px;">
+    🏆 RANKING AL FATEH INDOOR CHALLENGE 2026
+  </h2>
+
+  <p style="text-align:center;margin-bottom:20px;color:#ccc;">
+    Pilih kategori untuk melihat senarai pemanah
+  </p>
+
+  <div id="rankingCategories" style="
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  ">
+    Memuatkan kategori...
   </div>
+
+  <div id="rankingResults" style="display:none;margin-top:20px;"></div>
+
+</div>
   
   <!-- MAJLIS PEMANAH -->
     <div class="majlis-section" id="majlisSection">
@@ -1612,6 +1673,659 @@
     let majlisPemanah = [];
 
     const GAS_URL = "https://script.google.com/macros/s/AKfycbwf3d17sohkNTXshbj_uxV7aCFddO7lsKweFaFIx91ylBgD0Fjl4vPcy6CoI3652sxPGQ/exec";
+    
+    // ======================================
+// INDOOR 2026 RANKING
+// ======================================
+
+let indoorRanking = [];
+let indoorAdminMode = false;
+let indoorAdminToken = "";
+let activeIndoorCategory = "";
+
+fetch(GAS_URL + "?action=getIndoorRanking")
+  .then(res => res.json())
+  .then(data => {
+    indoorRanking = data || [];
+    renderRankingCategories();
+  })
+  .catch(error => {
+    console.error("Ranking error:", error);
+
+    document.getElementById("rankingCategories").innerHTML =
+      "Gagal memuatkan ranking.";
+  });
+
+
+function escapeRankingHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+} 
+
+
+// Generate kategori secara automatik 
+function renderRankingCategories() {
+  const container = document.getElementById("rankingCategories");
+  const results = document.getElementById("rankingResults");
+
+  results.style.display = "none";
+  container.style.display = "flex";
+
+  const categoryOrder = [
+      "Tahap 1 Lelaki",
+      "Tahap 1 Perempuan",
+      "Tahap 2 Lelaki",
+      "Tahap 2 Perempuan",
+      "Remaja Lelaki",
+      "Remaja Perempuan"
+    ];
+    
+    const categories = categoryOrder.filter(category =>
+      indoorRanking.some(a => a.kategori === category)
+    );
+
+  if (categories.length === 0) {
+    container.innerHTML = "Belum ada kategori ranking.";
+    return;
+  }
+
+  container.innerHTML = categories.map(category => `
+      <button
+        onclick="showIndoorRanking('${escapeRankingHTML(category).replace(/'/g, '&#39;')}')"
+        style="
+          width: calc(50% - 5px);
+          padding:12px 8px;
+          border:1px solid #d4af37;
+          border-radius:10px;
+          background:#18243b;
+          color:#fff;
+          font-weight:bold;
+          cursor:pointer;
+          font-size:14px;
+        ">
+        ${escapeRankingHTML(category)}
+      </button>
+    `).join("");
+}
+
+
+// ======================================
+// SHOW INDOOR RANKING
+// ======================================
+
+function showIndoorRanking(category) {
+
+  const container = document.getElementById("rankingCategories");
+  const results = document.getElementById("rankingResults");
+
+  activeIndoorCategory = category;
+
+  const archers = indoorRanking
+    .filter(a => a.kategori === category)
+    .sort((a, b) => {
+
+      const rankA = parseFloat(
+        String(a.ranking).replace(/[^0-9.-]/g, "")
+      );
+
+      const rankB = parseFloat(
+        String(b.ranking).replace(/[^0-9.-]/g, "")
+      );
+
+      return (Number.isFinite(rankA) ? rankA : Infinity) -
+             (Number.isFinite(rankB) ? rankB : Infinity);
+
+    });
+
+  container.style.display = "flex";
+  results.style.display = "block";
+
+  results.innerHTML = `
+
+    <button onclick="renderRankingCategories()" style="
+      padding:9px 16px;
+      margin-bottom:15px;
+      background:#555;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+    ">
+      ← Kembali ke Kategori
+    </button>
+
+    <div style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    ">
+
+      <h3 style="margin:0;text-align:center;">
+        ${escapeRankingHTML(category)}
+      </h3>
+
+      <button onclick="loginIndoorAdmin()" style="
+        padding:8px 14px;
+        background:${indoorAdminMode ? '#16803c' : '#d4af37'};
+        color:${indoorAdminMode ? '#fff' : '#111'};
+        border:none;
+        border-radius:8px;
+        font-weight:bold;
+        cursor:pointer;
+        font-size:12px;
+      ">
+        ${indoorAdminMode ? '✓ ADMIN ACTIVE' : '🔐 ADMIN'}
+      </button>
+
+    </div>
+
+    ${indoorAdminMode ? `
+      <p style="
+        text-align:center;
+        color:#7CFC98;
+        font-size:12px;
+        margin-bottom:12px;
+      ">
+        ADMIN MODE AKTIF — Klik nama pemanah untuk memasukkan skor.
+      </p>
+    ` : ""}
+
+    <div style="overflow-x:auto;">
+
+      <table style="
+        width:100%;
+        border-collapse:collapse;
+        color:white;
+        font-size:11px;
+      ">
+
+        <thead>
+          <tr style="background:#263b5c;">
+            <th style="padding:12px;border:1px solid #526078;">Ranking</th>
+            <th style="padding:12px;border:1px solid #526078;">Nama</th>
+            <th style="padding:12px;border:1px solid #526078;">Sekolah</th>
+            <th style="padding:12px;border:1px solid #526078;">Jumlah Skor</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${archers.map(a => `
+
+            <tr>
+
+              <td style="
+                padding:10px;
+                text-align:center;
+                border:1px solid #526078;
+                font-weight:bold;
+                color:#ffd700;
+              ">
+                ${escapeRankingHTML(a.ranking || "#")}
+              </td>
+
+              <td style="
+                padding:10px;
+                border:1px solid #526078;
+                ${indoorAdminMode ? 'color:#7CFC98;text-decoration:underline;cursor:pointer;' : ''}
+              "
+              ${indoorAdminMode
+                ? `onclick="openIndoorScore(${Number(a.rowNumber)})"`
+                : ""}
+              >
+                ${indoorAdminMode ? '✏️ ' : ''}
+                ${escapeRankingHTML(a.nama.toUpperCase())}
+              </td>
+
+              <td style="padding:10px;border:1px solid #526078;">
+                ${escapeRankingHTML(a.sekolah.toUpperCase())}
+              </td>
+
+              <td style="
+                padding:10px;
+                text-align:center;
+                border:1px solid #526078;
+                font-weight:bold;
+              ">
+                ${escapeRankingHTML(a.jumlahSkor)}
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+}
+
+// ======================================
+// INDOOR ADMIN LOGIN
+// ======================================
+
+function loginIndoorAdmin() {
+
+  if (indoorAdminMode) {
+    return;
+  }
+
+  const password = prompt("Masukkan Password Admin Indoor 2026:");
+
+  if (password === null || password === "") {
+    return;
+  }
+
+  fetch(
+    GAS_URL +
+    "?action=verifyIndoorAdmin&password=" +
+    encodeURIComponent(password)
+  )
+  .then(res => res.json())
+  .then(data => {
+
+    if (data.success) {
+
+      indoorAdminMode = true;
+      indoorAdminToken = data.token;
+
+      alert("Admin Mode berjaya diaktifkan!");
+
+      showIndoorRanking(activeIndoorCategory);
+
+    } else {
+
+      alert(data.message || "Password tidak betul.");
+
+    }
+
+  })
+  .catch(error => {
+
+    console.error(error);
+    alert("Gagal menghubungi server.");
+
+  });
+
+}
+
+
+// ======================================
+// OPEN ARCHER SCORE MODAL
+// ======================================
+
+function openIndoorScore(rowNumber) {
+
+  if (!indoorAdminMode) return;
+
+  const archer = indoorRanking.find(
+    a => Number(a.rowNumber) === Number(rowNumber)
+  ); 
+
+  if (!archer) return;
+
+  const oldScores = String(archer.skorArrow || "")
+      .split(",")
+      .map(score => score.trim());
+    
+    while (oldScores.length < 20) {
+      oldScores.push("");
+    }
+    
+    console.log("RESTORED SCORES:", oldScores);
+    
+    console.log("Restored arrow scores:", oldScores);
+
+  const modal = document.createElement("div");
+  modal.id = "indoorScoreModal";
+
+  modal.style.cssText = `
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    background:rgba(0,0,0,0.85);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+    box-sizing:border-box;
+  `;
+
+  let endsHTML = "";
+
+  for (let end = 0; end < 4; end++) {
+
+    endsHTML += `
+      <div style="
+        background:#17243a;
+        border:1px solid #526078;
+        border-radius:12px;
+        padding:12px;
+        margin-bottom:12px;
+      ">
+
+        <h3 style="
+          color:#ffd700;
+          font-size:15px;
+          margin:0 0 12px;
+        ">
+          END ${end + 1}
+        </h3>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(5,1fr);
+          gap:7px;
+        ">
+
+          ${Array.from({length:5}, (_, arrow) => {
+
+            const index = end * 5 + arrow;
+            const value = oldScores[index] ?? "";  
+
+            return `
+              <div style="text-align:center;">
+
+                <label style="
+                  display:block;
+                  color:#ccc;
+                  font-size:11px;
+                  margin-bottom:5px;
+                ">
+                  ${arrow + 1}
+                </label>
+
+                <input
+                  type="number"
+                  class="indoor-arrow-score"
+                  data-index="${index}"
+                  min="0"
+                  max="10"
+                  step="1"
+                  inputmode="numeric"
+                  value="${escapeRankingHTML(value)}"
+                  placeholder="-"
+                  style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:10px 2px;
+                    border:1px solid #77869c;
+                    border-radius:8px;
+                    text-align:center;
+                    font-size:17px;
+                    font-weight:bold;
+                    background:white;
+                    color:#111;
+                  "
+                >
+
+              </div>
+            `;
+
+          }).join("")}
+
+        </div>
+
+      </div>
+    `;
+  }
+
+  modal.innerHTML = `
+
+    <div style="
+      background:#101c30;
+      color:white;
+      width:100%;
+      max-width:430px;
+      max-height:90vh;
+      overflow-y:auto;
+      border-radius:16px;
+      padding:18px;
+      box-sizing:border-box;
+      border:1px solid #d4af37;
+    ">
+
+      <h2 style="
+        color:#ffd700;
+        text-align:center;
+        font-size:18px;
+        margin:0 0 5px;
+      ">
+        🏹 INPUT SKOR INDOOR
+      </h2>
+
+      <div style="
+        text-align:center;
+        font-size:13px;
+        margin-bottom:16px;
+      ">
+        ${escapeRankingHTML(archer.nama)}
+      </div>
+
+      ${endsHTML}
+
+      <div style="
+        background:#263b5c;
+        padding:15px;
+        border-radius:10px;
+        text-align:center;
+        margin:12px 0;
+      ">
+
+        <div style="font-size:12px;color:#ccc;">
+          JUMLAH SKOR
+        </div>
+
+        <div id="indoorLiveTotal" style="
+          font-size:32px;
+          font-weight:bold;
+          color:#ffd700;
+        ">
+          0
+        </div>
+
+        <div style="font-size:11px;color:#ccc;">
+          Maksimum 200 mata
+        </div>
+
+      </div>
+
+      <button id="saveIndoorScoreBtn" onclick="saveIndoorArcherScore(${Number(rowNumber)})" style="
+        width:100%;
+        padding:13px;
+        background:#16803c;
+        color:white;
+        border:none;
+        border-radius:9px;
+        font-size:15px;
+        font-weight:bold;
+        cursor:pointer;
+      ">
+        💾 SIMPAN SKOR
+      </button>
+
+      <button onclick="document.getElementById('indoorScoreModal').remove()" style="
+        width:100%;
+        padding:11px;
+        margin-top:8px;
+        background:#555;
+        color:white;
+        border:none;
+        border-radius:9px;
+        cursor:pointer;
+      ">
+        BATAL
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Realtime total
+  modal.querySelectorAll(".indoor-arrow-score").forEach(input => {
+
+    input.addEventListener("input", updateIndoorLiveTotal);
+
+  });
+
+  updateIndoorLiveTotal();
+
+}
+
+
+// ======================================
+// REALTIME TOTAL
+// ======================================
+
+function updateIndoorLiveTotal() {
+
+  const inputs = document.querySelectorAll(".indoor-arrow-score");
+
+  let total = 0;
+
+  inputs.forEach(input => {
+
+    const value = input.value.trim();
+
+    if (value !== "") {
+      const number = Number(value);
+
+      if (Number.isInteger(number) && number >= 0 && number <= 10) {
+        total += number;
+      }
+    }
+
+  });
+
+  const totalEl = document.getElementById("indoorLiveTotal");
+
+  if (totalEl) {
+    totalEl.textContent = total;
+  }
+
+}
+
+// ======================================
+// SAVE INDOOR ARCHER SCORE
+// ======================================
+
+function saveIndoorArcherScore(rowNumber) {
+
+  const archer = indoorRanking.find(
+    a => Number(a.rowNumber) === Number(rowNumber)
+  );
+
+  if (!archer) return;
+
+  const inputs = Array.from(
+    document.querySelectorAll(".indoor-arrow-score")
+  );
+
+  if (inputs.length !== 20) {
+    alert("Ralat: Input skor tidak lengkap.");
+    return;
+  }
+
+  const scores = inputs.map(input => {
+
+    const value = input.value.trim();
+
+    if (value === "") return null;
+
+    const number = Number(value);
+
+    if (!Number.isInteger(number) || number < 0 || number > 10) {
+      return null;
+    }
+
+    return number;
+
+  });
+
+  if (scores.every(score => score === null)) {
+      alert("Sila masukkan sekurang-kurangnya satu skor.");
+      return;
+    }
+
+  const saveBtn = document.getElementById("saveIndoorScoreBtn");
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "SEDANG MENYIMPAN...";
+
+  const params = new URLSearchParams({
+    action: "saveIndoorScore",
+    token: indoorAdminToken,
+    rowNumber: rowNumber,
+    nama: archer.nama,
+    kategori: archer.kategori,
+    scores: JSON.stringify(scores)
+  });
+
+  fetch(GAS_URL + "?" + params.toString())
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data.success) {
+
+        alert(data.message || "Gagal menyimpan skor.");
+
+        if (data.message && data.message.includes("Sesi admin tamat")) {
+          indoorAdminMode = false;
+          indoorAdminToken = "";
+        }
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = "💾 SIMPAN SKOR";
+
+        return;
+      }
+
+      document.getElementById("indoorScoreModal").remove();
+
+      alert("✅ SKOR BERJAYA DISIMPAN!\n\nJumlah skor: " + data.total);
+
+      // One-time token has been consumed.
+      // Require admin login again for the next save.
+      indoorAdminMode = false;
+      indoorAdminToken = "";
+
+      // Reload ranking and updated formula values
+      fetch(GAS_URL + "?action=getIndoorRanking")
+          .then(res => res.json())
+          .then(data => {
+            indoorRanking = data || [];
+        
+            // Refresh the displayed ranking with the latest scores
+            showIndoorRanking(activeIndoorCategory);
+          })
+          .catch(error => {
+            console.error("Failed to refresh indoor ranking:", error);
+          });
+
+    })
+    .catch(error => {
+
+      console.error(error);
+
+      alert("Ralat semasa menyimpan skor.");
+
+      saveBtn.disabled = false;
+      saveBtn.textContent = "💾 SIMPAN SKOR";
+
+    });
+
+}
 
     fetch(GAS_URL + "?action=getAllAthletes")
     .then(res => res.json())
@@ -1895,6 +2609,9 @@
     }
 
     function searchAthlete() {
+      const poster = document.getElementById("portalPoster");
+      poster.style.display = "none";
+      document.getElementById("rankingSection").style.display = "none";
       const ic = document.getElementById("searchIC").value.trim();
       const profileCard = document.getElementById("profileCard");
       const profileInfo = document.getElementById("profileInfo");
@@ -2869,21 +3586,19 @@ document.getElementById("medalProgressSection").style.display="block";
 
     }
 
+// Tunjuk poster semula apabila ruangan IC dikosongkan
+document.getElementById("searchIC").addEventListener("input", function () {
+  const poster = document.getElementById("portalPoster");
+  const ranking = document.getElementById("rankingSection");
 
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
+  if (this.value.trim() === "") {
+    poster.style.display = "block";
+    ranking.style.display = "block";
+  } else {
+    poster.style.display = "none";
+    ranking.style.display = "none";
+  }
+});
 
 
 
