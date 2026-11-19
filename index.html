@@ -1709,6 +1709,7 @@ function escapeRankingHTML(value) {
 
 
 // Generate kategori secara automatik 
+// Generate kategori secara automatik 
 function renderRankingCategories() {
   const container = document.getElementById("rankingCategories");
   const results = document.getElementById("rankingResults");
@@ -1717,24 +1718,38 @@ function renderRankingCategories() {
   container.style.display = "flex";
 
   const categoryOrder = [
-      "Tahap 1 Lelaki",
-      "Tahap 1 Perempuan",
-      "Tahap 2 Lelaki",
-      "Tahap 2 Perempuan",
-      "Remaja Lelaki",
-      "Remaja Perempuan"
-    ];
+    "Tahap 1 Lelaki",
+    "Tahap 1 Perempuan",
+    "Tahap 2 Lelaki",
+    "Tahap 2 Perempuan",
+    "Remaja Lelaki",
+    "Remaja Perempuan"
+  ];
+
+  // Map raw category names to their display labels
+  const categoryLabels = {
+    "Tahap 1 Lelaki": "Tahap 1 Lelaki (U9)",
+    "Tahap 1 Perempuan": "Tahap 1 Perempuan (U9)",
+    "Tahap 2 Lelaki": "Tahap 2 Lelaki (U12)",
+    "Tahap 2 Perempuan": "Tahap 2 Perempuan (U12)",
+    "Remaja Lelaki": "Remaja Lelaki (U17)",
+    "Remaja Perempuan": "Remaja Perempuan (U17)"
+  };
     
-    const categories = categoryOrder.filter(category =>
-      indoorRanking.some(a => a.kategori === category)
-    );
+  const categories = categoryOrder.filter(category =>
+    indoorRanking.some(a => a.kategori === category)
+  );
 
   if (categories.length === 0) {
     container.innerHTML = "Belum ada kategori ranking.";
     return;
   }
 
-  container.innerHTML = categories.map(category => `
+  container.innerHTML = categories.map(category => {
+    // Use the mapped label, or fallback to the original name if not found
+    const displayLabel = categoryLabels[category] || category;
+
+    return `
       <button
         onclick="showIndoorRanking('${escapeRankingHTML(category).replace(/'/g, '&#39;')}')"
         style="
@@ -1748,10 +1763,11 @@ function renderRankingCategories() {
           cursor:pointer;
           font-size:14px;
         ">
-        ${escapeRankingHTML(category)}
+        ${escapeRankingHTML(displayLabel)}
       </button>
-    `).join("");
-}
+    `;
+  }).join("");
+} 
 
 
 // ======================================
