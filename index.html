@@ -1667,8 +1667,52 @@
 
 
 
-  <script>
+  <script> 
+      
 
+    // ======================================
+    // PORTAL BUTTON MUSIC
+    // ======================================
+    
+    document.addEventListener("DOMContentLoaded", function() {
+    
+      const portalMusic = document.getElementById("portalMusic");
+    
+      if (!portalMusic) {
+        console.warn("Portal music element not found.");
+        return;
+      }
+    
+      portalMusic.volume = 0.65;
+    
+      document.addEventListener("click", function(event) {
+    
+        // Only trigger from buttons inside Ranking Categories
+        const clickedButton = event.target.closest("#rankingCategories button");
+    
+        if (!clickedButton) return;
+    
+        // Reset button stops music
+        if (
+          clickedButton.id === "resetButton" ||
+          clickedButton.textContent.trim().toLowerCase().includes("reset")
+        ) {
+          portalMusic.pause();
+          portalMusic.currentTime = 0;
+          return;
+        }
+    
+        // Other ranking category buttons start music
+        if (portalMusic.paused) {
+          portalMusic.play().catch(error => {
+            console.log("Music playback:", error);
+          });
+        }
+    
+      });
+    
+    });
+    
     let athletes = [];
     let majlisPemanah = [];
 
@@ -1854,9 +1898,41 @@ function showIndoorRanking(category) {
       </p>
     ` : ""}
 
+    <!-- ARCHER NAME SEARCH -->
+    <div style="
+      margin-bottom:12px;
+      position:relative;
+    ">
+    
+      <input
+        type="search"
+        id="indoorNameSearch"
+        list="indoorNameSuggestions"
+        placeholder="🔍 Cari nama pemanah..."
+        oninput="filterIndoorRanking(this.value)"
+        autocomplete="off"
+        style="
+          width:100%;
+          box-sizing:border-box;
+          padding:12px;
+          border:1px solid #d4af37;
+          border-radius:9px;
+          font-size:14px;
+          outline:none;
+        "
+      >
+    
+      <datalist id="indoorNameSuggestions">
+        ${archers.map(a => `
+          <option value="${escapeRankingHTML(a.nama)}"></option>
+        `).join("")}
+      </datalist>
+    
+    </div>
+    
     <div style="overflow-x:auto;">
 
-      <table style="
+      <table id="indoorRankingTable" style="
         width:100%;
         border-collapse:collapse;
         color:white;
@@ -1876,7 +1952,7 @@ function showIndoorRanking(category) {
 
           ${archers.map(a => `
 
-            <tr>
+            <tr data-name="${escapeRankingHTML(a.nama.toLowerCase())}">
 
               <td style="
                 padding:10px;
@@ -1924,6 +2000,28 @@ function showIndoorRanking(category) {
 
     </div>
   `;
+}
+
+// ======================================
+// SEARCH INDOOR ARCHER
+// ======================================
+
+function filterIndoorRanking(searchText) {
+
+  const search = searchText.trim().toLowerCase();
+
+  const rows = document.querySelectorAll(
+    "#indoorRankingTable tbody tr"
+  );
+
+  rows.forEach(row => {
+
+    const name = row.dataset.name || "";
+
+    row.style.display = name.includes(search) ? "" : "none";
+
+  });
+
 }
 
 // ======================================
@@ -2307,14 +2405,11 @@ function saveIndoorArcherScore(rowNumber) {
         return;
       }
 
-      document.getElementById("indoorScoreModal").remove();
+      document.getElementById("indoorScoreModal").remove(); 
 
       alert("✅ SKOR BERJAYA DISIMPAN!\n\nJumlah skor: " + data.total);
 
-      // One-time token has been consumed.
-      // Require admin login again for the next save.
-      indoorAdminMode = false;
-      indoorAdminToken = "";
+      
 
       // Reload ranking and updated formula values
       fetch(GAS_URL + "?action=getIndoorRanking")
@@ -3621,5 +3716,10 @@ document.getElementById("searchIC").addEventListener("input", function () {
 
 
   </script>
+
+<!-- AL FATEH PORTAL BACKGROUND MUSIC -->
+<audio id="portalMusic" preload="auto">
+  <source src="https://raw.githubusercontent.com/julf95/classroom/main/Energetic-Rock-Background-Music-For-Sports-Workout-Videos.m4a" type="audio/mp4">
+</audio>
 </body>
 </html>
